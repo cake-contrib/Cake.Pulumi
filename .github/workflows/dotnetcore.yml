@@ -14,5 +14,5 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
-      shell: pwsh
+      shell: powershell
       run: ./build.ps1
