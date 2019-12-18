@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Cake.Pulumi</id>
+    <version>0.0.0</version>
+    <authors>James Connor</authors>
+    <owners>James Connor</owners>
+    <description>Cake Pulumi Addin.</description>
+    <summary>Cake AddIn that extends Cake with ability to execute Pulumi commands.</summary>
+    <projectUrl>https://github.com/cake-contrib/Cake.Pulumi/</projectUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <repository type="git" url="https://github.com/cake-contrib/Cake.Pulumi.git"/>
+    <tags>Cake, Script, Build, Pulumi</tags>
+  </metadata>
+  <files>
+    <file src="net461\Cake.Pulumi.dll" target="lib\net461" />
+    <file src="net461\Cake.Pulumi.pdb" target="lib\net461" />
+    <file src="netstandard2.0\Cake.Pulumi.dll" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Cake.Pulumi.pdb" target="lib\netstandard2.0" />
+  </files>
+</package>
