@@ -2,7 +2,7 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 
-namespace Cake.Pulumi.Destroy
+namespace Cake.Pulumi
 {
     public class PulumiDestroyRunner : PulumiRunner<PulumiDestroySettings>
     {

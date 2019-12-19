@@ -1,4 +1,4 @@
-﻿namespace Cake.Pulumi.Up
+﻿namespace Cake.Pulumi
 {
     public class PulumiUpSettings : PulumiSettings
     {

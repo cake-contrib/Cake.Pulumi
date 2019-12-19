@@ -1,4 +1,4 @@
-﻿namespace Cake.Pulumi.Preview
+﻿namespace Cake.Pulumi
 {
     public class PulumiPreviewSettings : PulumiSettings
     {

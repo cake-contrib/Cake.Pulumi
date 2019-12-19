@@ -1,9 +1,5 @@
 ﻿using Cake.Core;
 using Cake.Core.Annotations;
-using Cake.Pulumi.Destroy;
-using Cake.Pulumi.Preview;
-using Cake.Pulumi.Refresh;
-using Cake.Pulumi.Up;
 
 namespace Cake.Pulumi
 {

@@ -1,4 +1,4 @@
-namespace Cake.Pulumi.Destroy
+namespace Cake.Pulumi
 {
     /// <summary>
     ///     The Pulumi destroy command is used to destroy the Pulumi-managed infrastructure.

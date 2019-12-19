@@ -1,5 +1,4 @@
 ﻿using Cake.Core;
-using Cake.Pulumi.Up;
 using Cake.Testing;
 using Xunit;
 

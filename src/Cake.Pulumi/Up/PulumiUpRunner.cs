@@ -2,7 +2,7 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 
-namespace Cake.Pulumi.Up
+namespace Cake.Pulumi
 {
     public class PulumiUpRunner : PulumiRunner<PulumiUpSettings>
     {

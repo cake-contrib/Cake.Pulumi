@@ -1,4 +1,4 @@
-﻿namespace Cake.Pulumi.Refresh
+﻿namespace Cake.Pulumi
 {
     public class PulumiRefreshSettings : PulumiSettings
     {
