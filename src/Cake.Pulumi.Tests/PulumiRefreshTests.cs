@@ -104,6 +104,21 @@ namespace Cake.Pulumi.Tests
                 Assert.IsType<CakeException>(result);
                 Assert.Equal("Pulumi: Could not locate executable.", result.Message);
             }
+            
+            [Fact]
+            public void Should_set_pulumi_access_token_if_set()
+            {
+                var fixture = new Fixture
+                {
+                    Settings = new PulumiRefreshSettings
+                    {
+                        PulumiAccessToken = "Bleb"
+                    }
+                };
+                var result = fixture.Run();
+
+                Assert.Equal("Bleb", result.Process.EnvironmentVariables["PULUMI_ACCESS_TOKEN"]);
+            }
         }
     }
 }

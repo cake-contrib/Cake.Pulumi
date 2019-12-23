@@ -6,25 +6,18 @@ namespace Cake.Pulumi
 {
     public class PulumiPreviewRunner : PulumiRunner<PulumiPreviewSettings>
     {
-        public PulumiPreviewRunner(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner, IToolLocator tools)
+        public PulumiPreviewRunner(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner,
+            IToolLocator tools)
             : base(fileSystem, environment, processRunner, tools)
         {
         }
 
-        public bool HasChanges { get; private set; }
-
         public void Run(PulumiPreviewSettings settings)
         {
-            var builder = new ProcessArgumentBuilder()
-                .Append("preview");
-
-            if (!string.IsNullOrWhiteSpace(settings.Stack))
-                builder = builder.AppendSwitchQuoted("--stack", settings.Stack);
-
-            builder = builder.Append("--expect-no-changes");
-
-            Run(settings, builder);
+            Run("preview", settings);
         }
+
+        public bool HasChanges { get; private set; }
 
         protected override void ProcessExitCode(int exitCode)
         {
