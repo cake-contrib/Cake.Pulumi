@@ -58,5 +58,18 @@ namespace Cake.Pulumi
             var runner = new PulumiRefreshRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
             runner.Run(settings);
         }
+        
+        [CakeMethodAlias]
+        public static void PulumiLogin(this ICakeContext context)
+        {
+            PulumiLogin(context, new PulumiLoginSettings());
+        }
+
+        [CakeMethodAlias]
+        public static void PulumiLogin(this ICakeContext context, PulumiLoginSettings settings)
+        {
+            var runner = new PulumiLoginRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Run(settings);
+        }
     }
 }

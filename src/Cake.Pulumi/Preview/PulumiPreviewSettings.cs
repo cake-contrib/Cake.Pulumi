@@ -1,7 +1,6 @@
 ﻿namespace Cake.Pulumi
 {
-    public class PulumiPreviewSettings : PulumiSettings
+    public class PulumiPreviewSettings : PulumiStackSettings
     {
-        public string Stack { get; set; }
     }
 }

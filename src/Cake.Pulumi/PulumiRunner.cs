@@ -15,6 +15,18 @@ namespace Cake.Pulumi
             _platform = environment.Platform;
         }
 
+        protected override IDictionary<string, string> GetEnvironmentVariables(TPulumiSettings settings)
+        {
+            var dict = base.GetEnvironmentVariables(settings);
+            
+            if (!string.IsNullOrWhiteSpace(settings.PulumiAccessToken))
+            {
+                dict.Add("PULUMI_ACCESS_TOKEN", settings.PulumiAccessToken);
+            }
+            
+            return dict;
+        }
+
         protected override string GetToolName()
         {
             return "Pulumi";

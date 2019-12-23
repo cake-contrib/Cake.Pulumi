@@ -1,9 +1,8 @@
 ﻿namespace Cake.Pulumi
 {
-    public class PulumiRefreshSettings : PulumiSettings
+    public class PulumiRefreshSettings : PulumiStackSettings
     {
         public bool ExpectNoChanges { get; set; }
         public bool AutoApprove { get; set; }
-        public string Stack { get; set; }
     }
 }
