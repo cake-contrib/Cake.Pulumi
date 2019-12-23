@@ -67,18 +67,18 @@ namespace Cake.Pulumi.Tests
             }
 
             [Fact]
-            public void Should_set_force_flag_when_set_to_true()
+            public void Should_set_pulumi_access_token_if_set()
             {
                 var fixture = new Fixture
                 {
                     Settings = new PulumiDestroySettings
                     {
-                        AutoApprove = true
+                        PulumiAccessToken = "Bleb"
                     }
                 };
                 var result = fixture.Run();
 
-                Assert.Contains("--yes", result.Args);
+                Assert.Equal("Bleb", result.Process.EnvironmentVariables["PULUMI_ACCESS_TOKEN"]);
             }
 
 

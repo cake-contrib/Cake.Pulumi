@@ -13,19 +13,7 @@ namespace Cake.Pulumi
 
         public void Run(PulumiRefreshSettings settings)
         {
-            var builder = new ProcessArgumentBuilder()
-                .Append("refresh");
-
-            if (!string.IsNullOrWhiteSpace(settings.Stack))
-                builder = builder.AppendSwitchQuoted("--stack", settings.Stack);
-
-            if (settings.ExpectNoChanges)
-                builder = builder.Append("--expect-no-changes");
-
-            if (settings.AutoApprove)
-                builder = builder.Append("--yes");
-
-            Run(settings, builder);
+            Run("refresh", settings);
         }
     }
 }

@@ -15,6 +15,16 @@ namespace Cake.Pulumi
             _platform = environment.Platform;
         }
 
+        protected void Run(string verb, TPulumiSettings settings)
+        {
+            var builder = new ProcessArgumentBuilder()
+                .Append(verb);
+
+            builder = settings.Apply(builder);
+
+            Run(settings, builder);
+        }
+        
         protected override IDictionary<string, string> GetEnvironmentVariables(TPulumiSettings settings)
         {
             var dict = base.GetEnvironmentVariables(settings);

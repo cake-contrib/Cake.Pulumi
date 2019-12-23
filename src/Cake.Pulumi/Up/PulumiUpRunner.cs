@@ -13,20 +13,7 @@ namespace Cake.Pulumi
 
         public void Run(PulumiUpSettings settings)
         {
-            var builder = new ProcessArgumentBuilder()
-                .Append("up");
-
-            // Order of AutoApprove and Plan are important.
-            if (settings.Refresh)
-                builder.Append("--refresh");
-
-            if (!string.IsNullOrWhiteSpace(settings.Stack))
-                builder = builder.AppendSwitchQuoted("--stack", settings.Stack);
-
-            if (settings.AutoApprove)
-                builder = builder.Append("--yes");
-
-            Run(settings, builder);
+            Run("up", settings);
         }
     }
 }

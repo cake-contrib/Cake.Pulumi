@@ -13,11 +13,7 @@ namespace Cake.Pulumi
 
         public void Run(PulumiLoginSettings settings)
         {
-            var builder = new ProcessArgumentBuilder()
-                .Append("login")
-                .Append(settings.Backend);
-
-            Run(settings, builder);
+            Run("login", settings);
         }
 
     }

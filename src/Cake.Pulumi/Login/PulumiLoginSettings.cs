@@ -1,4 +1,7 @@
-﻿namespace Cake.Pulumi
+﻿using Cake.Core;
+using Cake.Core.IO;
+
+namespace Cake.Pulumi
 {
     public class PulumiLoginSettings : PulumiSettings
     {
@@ -13,5 +16,13 @@
         /// Pulumi Enterprise: https://pulumi.acmecorp.com
         /// </summary>
         public string Backend { get; set; } = "https://app.pulumi.com";
+
+
+        internal override ProcessArgumentBuilder Apply(ProcessArgumentBuilder builder)
+        {
+            return base
+                .Apply(builder)
+                .Append(Backend);
+        }
     }
 }

@@ -1,3 +1,6 @@
+using Cake.Core;
+using Cake.Core.IO;
+
 namespace Cake.Pulumi
 {
     /// <summary>
@@ -5,6 +8,5 @@ namespace Cake.Pulumi
     /// </summary>
     public class PulumiDestroySettings : PulumiStackSettings
     {
-        public bool AutoApprove { get; set; }
     }
 }

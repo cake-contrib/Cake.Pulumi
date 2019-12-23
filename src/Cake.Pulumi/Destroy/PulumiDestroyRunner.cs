@@ -13,15 +13,7 @@ namespace Cake.Pulumi
 
         public void Run(PulumiDestroySettings settings)
         {
-            var builder = new ProcessArgumentBuilder().Append("destroy");
-
-            if (!string.IsNullOrWhiteSpace(settings.Stack))
-                builder = builder.AppendSwitchQuoted("--stack", settings.Stack);
-
-            if (settings.AutoApprove)
-                builder = builder.Append("--yes");
-
-            Run(settings, builder);
+            Run("destroy", settings);
         }
     }
 }
