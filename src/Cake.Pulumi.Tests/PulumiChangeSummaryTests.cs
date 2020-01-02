@@ -4,21 +4,21 @@ using Xunit;
 
 namespace Cake.Pulumi.Tests
 {
-    public class PulumiPreviewTests
+    public class PulumiChangeSummaryTests
     {
-        private class Fixture : PulumiFixture<PulumiPreviewSettings>
+        private class Fixture : PulumiFixture<PulumiChangeSummarySettings>
         {
             public Fixture(PlatformFamily platformFamily = PlatformFamily.Windows) : base(platformFamily)
             {
             }
 
-            public string Preview { get; set; }
+            public bool HasChanges { get; set; }
 
             protected override void RunTool()
             {
-                var tool = new PulumiPreviewRunner(FileSystem, Environment, ProcessRunner, Tools);
+                var tool = new PulumiChangeSummaryRunner(FileSystem, Environment, ProcessRunner, Tools);
                 tool.Run(Settings);
-                Preview = tool.StdOut;
+                HasChanges = tool.ChangeSummary;
             }
         }
 
@@ -60,11 +60,23 @@ namespace Cake.Pulumi.Tests
             }
 
             [Fact]
+            public void Should_not_have_changes_if_process_has_exit_code_zero()
+            {
+                var fixture = new Fixture();
+                fixture.GivenProcessExitsWithCode(0);
+
+                var result = fixture.Run();
+
+                Assert.False(fixture.HasChanges);
+            }
+
+
+            [Fact]
             public void Should_set_input_variables_file()
             {
                 var fixture = new Fixture
                 {
-                    Settings = new PulumiPreviewSettings
+                    Settings = new PulumiChangeSummarySettings
                     {
                         Stack = "dev"
                     }
@@ -113,7 +125,7 @@ namespace Cake.Pulumi.Tests
             {
                 var fixture = new Fixture
                 {
-                    Settings = new PulumiPreviewSettings
+                    Settings = new PulumiChangeSummarySettings
                     {
                         PulumiAccessToken = "Bleb"
                     }

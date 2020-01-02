@@ -14,11 +14,25 @@ namespace Cake.Pulumi
         /// <summary>
         /// Set if using pulumi local state persistence.
         /// </summary>
-        public string PulumiConfigPassphase {get;set;}
+        public string PulumiConfigPassphrase { get; set; }
+
+        
+        /// <summary>
+        /// Enable verbose logging
+        /// </summary>
+        public bool Verbose { get; set; }
 
         internal virtual ProcessArgumentBuilder Apply(ProcessArgumentBuilder builder)
         {
-            return builder.Append("--non-interactive");
+            var b = builder
+                .Append("--non-interactive");
+
+            if (Verbose)
+            {
+                b = b.AppendSwitch("--verbose", "3");
+            }
+
+            return b;
         }
     }
 }

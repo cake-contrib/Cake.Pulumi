@@ -4,21 +4,18 @@ using Xunit;
 
 namespace Cake.Pulumi.Tests
 {
-    public class PulumiPreviewTests
+    public class PulumiLogoutTests
     {
-        private class Fixture : PulumiFixture<PulumiPreviewSettings>
+        private class Fixture : PulumiFixture<PulumiLogoutSettings>
         {
             public Fixture(PlatformFamily platformFamily = PlatformFamily.Windows) : base(platformFamily)
             {
             }
 
-            public string Preview { get; set; }
-
             protected override void RunTool()
             {
-                var tool = new PulumiPreviewRunner(FileSystem, Environment, ProcessRunner, Tools);
+                var tool = new PulumiLogoutRunner(FileSystem, Environment, ProcessRunner, Tools);
                 tool.Run(Settings);
-                Preview = tool.StdOut;
             }
         }
 
@@ -59,19 +56,20 @@ namespace Cake.Pulumi.Tests
                 Assert.Equal("/Working/tools/pulumi.exe", result.Path.FullPath);
             }
 
+
             [Fact]
             public void Should_set_input_variables_file()
             {
                 var fixture = new Fixture
                 {
-                    Settings = new PulumiPreviewSettings
+                    Settings = new PulumiLogoutSettings
                     {
-                        Stack = "dev"
+                        Backend = "file://~"
                     }
                 };
                 var result = fixture.Run();
 
-                Assert.Contains("--stack \"dev\"", result.Args);
+                Assert.Contains("file://~", result.Args);
             }
 
             [Fact]
@@ -81,7 +79,7 @@ namespace Cake.Pulumi.Tests
 
                 var result = fixture.Run();
 
-                Assert.Contains("preview", result.Args);
+                Assert.Contains("logout", result.Args);
             }
 
             [Fact]
@@ -107,22 +105,6 @@ namespace Cake.Pulumi.Tests
                 Assert.IsType<CakeException>(result);
                 Assert.Equal("Pulumi: Could not locate executable.", result.Message);
             }
-            
-            [Fact]
-            public void Should_set_pulumi_access_token_if_set()
-            {
-                var fixture = new Fixture
-                {
-                    Settings = new PulumiPreviewSettings
-                    {
-                        PulumiAccessToken = "Bleb"
-                    }
-                };
-                var result = fixture.Run();
-
-                Assert.Equal("Bleb", result.Process.EnvironmentVariables["PULUMI_ACCESS_TOKEN"]);
-            }
-
         }
     }
 }

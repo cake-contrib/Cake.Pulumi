@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
@@ -15,14 +17,22 @@ namespace Cake.Pulumi
             _platform = environment.Platform;
         }
 
-        protected void Run(string verb, TPulumiSettings settings)
+        protected void Run(string verb, TPulumiSettings settings, Action<string[]> handleStdOut = null)
         {
             var builder = new ProcessArgumentBuilder()
                 .Append(verb);
 
             builder = settings.Apply(builder);
 
-            Run(settings, builder);
+            Run(settings, builder, 
+                new ProcessSettings()
+                {
+                    RedirectStandardOutput = handleStdOut != null,
+                },
+                process =>
+                {
+                    handleStdOut?.Invoke((process.GetStandardOutput() ?? Enumerable.Empty<string>()).ToArray());
+                });
         }
         
         protected override IDictionary<string, string> GetEnvironmentVariables(TPulumiSettings settings)
@@ -33,9 +43,9 @@ namespace Cake.Pulumi
             {
                 dict.Add("PULUMI_ACCESS_TOKEN", settings.PulumiAccessToken);
             }
-            if (!string.IsNullOrWhiteSpace(settings.PulumiConfigPassphase))
+            if (!string.IsNullOrWhiteSpace(settings.PulumiConfigPassphrase))
             {
-                dict.Add("PULUMI_CONFIG_PASSPHRASE", settings.PulumiConfigPassphase);
+                dict.Add("PULUMI_CONFIG_PASSPHRASE", settings.PulumiConfigPassphrase);
             }
             
 

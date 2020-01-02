@@ -1,3 +1,4 @@
+using System;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
@@ -12,19 +13,13 @@ namespace Cake.Pulumi
         {
         }
 
+        public string StdOut { get; private set; }
+
         public void Run(PulumiPreviewSettings settings)
         {
-            Run("preview", settings);
+            Run("preview", settings, 
+                stdOut => StdOut = string.Join(Environment.NewLine, stdOut));
         }
 
-        public bool HasChanges { get; private set; }
-
-        protected override void ProcessExitCode(int exitCode)
-        {
-            if (exitCode == -1)
-                HasChanges = true;
-            else
-                base.ProcessExitCode(exitCode);
-        }
     }
 }
