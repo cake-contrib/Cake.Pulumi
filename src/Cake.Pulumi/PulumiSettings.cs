@@ -11,6 +11,11 @@ namespace Cake.Pulumi
         /// </summary>
         public string PulumiAccessToken { get; set; }
 
+        /// <summary>
+        /// Set if using pulumi local state persistence.
+        /// </summary>
+        public string PulumiConfigPassphase {get;set;}
+
         internal virtual ProcessArgumentBuilder Apply(ProcessArgumentBuilder builder)
         {
             return builder.Append("--non-interactive");

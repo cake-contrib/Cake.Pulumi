@@ -20,7 +20,8 @@ namespace Cake.Pulumi
         internal override ProcessArgumentBuilder Apply(ProcessArgumentBuilder builder)
         {
             builder = base
-                .Apply(builder);
+                .Apply(builder)
+                .Append("--yes");
 
             if (Refresh)
                 builder.Append("--refresh");

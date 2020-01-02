@@ -15,7 +15,7 @@ namespace Cake.Pulumi
         {
             builder = base
                 .Apply(builder)
-                .Append("--yes");
+                .Append("--non-interactive");
 
             if (!string.IsNullOrWhiteSpace(Stack))
                 builder = builder.AppendSwitchQuoted("--stack", Stack);

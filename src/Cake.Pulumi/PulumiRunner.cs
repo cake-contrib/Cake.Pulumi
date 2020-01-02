@@ -33,7 +33,12 @@ namespace Cake.Pulumi
             {
                 dict.Add("PULUMI_ACCESS_TOKEN", settings.PulumiAccessToken);
             }
+            if (!string.IsNullOrWhiteSpace(settings.PulumiConfigPassphase))
+            {
+                dict.Add("PULUMI_CONFIG_PASSPHRASE", settings.PulumiConfigPassphase);
+            }
             
+
             return dict;
         }
 
