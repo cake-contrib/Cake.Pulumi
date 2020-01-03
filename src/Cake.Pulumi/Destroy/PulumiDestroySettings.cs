@@ -8,5 +8,23 @@ namespace Cake.Pulumi
     /// </summary>
     public class PulumiDestroySettings : PulumiStackSettings
     {
+
+        /// <summary>
+        /// Refresh Pulumi stack state before performing the destroy command.
+        /// </summary>
+        public bool Refresh { get; set; }
+
+        internal override ProcessArgumentBuilder Apply(ProcessArgumentBuilder builder)
+        {
+            builder = base
+                .Apply(builder)
+                .Append("--yes")
+                .Append("--skip-preview");
+
+            if (Refresh)
+                builder.Append("--refresh");
+
+            return builder;
+        }
     }
 }
