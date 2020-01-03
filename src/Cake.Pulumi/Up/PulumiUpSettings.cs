@@ -21,7 +21,8 @@ namespace Cake.Pulumi
         {
             builder = base
                 .Apply(builder)
-                .Append("--yes");
+                .Append("--yes")
+                .Append("--skip-preview");
 
             if (Refresh)
                 builder.Append("--refresh");
