@@ -3,7 +3,7 @@ using Cake.Core.IO;
 
 namespace Cake.Pulumi
 {
-    public abstract class PulumiStackSettings : PulumiSettings
+    public class PulumiStackSettings : PulumiSettings
     {
         /// <summary>
         /// The stack name you want to perform the action

@@ -4,7 +4,7 @@ using Cake.Core.Tooling;
 
 namespace Cake.Pulumi
 {
-    public abstract class PulumiSettings : ToolSettings
+    public class PulumiSettings : ToolSettings
     {
         /// <summary>
         /// Set if using a pulumi server backend (pulumi.com or Pulumi Enterprise)

@@ -261,51 +261,96 @@ namespace Cake.Pulumi
             runner.Run(Set(settings));
         }
 
-
+        
+        private static readonly AsyncLocal<PulumiSettings> _pulumiSettings = new AsyncLocal<PulumiSettings>();
         private static readonly AsyncLocal<string> _pulumiStack = new AsyncLocal<string>();
+        private static readonly AsyncLocal<DirectoryPath> _pulumiDir = new AsyncLocal<DirectoryPath>();
+
+        /// <summary>
+        /// Explicitly sets the pulumi settings you want to operate on over multiple pulumi commands
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="pulumiSettings"></param>
+        /// <returns></returns>
+        [CakeMethodAlias]
+        public static IDisposable WithPulumiSettings<T>(this ICakeContext context, T pulumiSettings)
+            where T : PulumiSettings
+        {
+            _pulumiSettings.Value = pulumiSettings;
+            return new DisposableAction(() => _pulumiSettings.Value = null);
+        }
 
         /// <summary>
         /// Explicitly sets the pulumi stack you want to operate on over multiple pulumi commands
+        /// If this is used in conjunction with <see cref="PulumiStack"/> then this will take precedence.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="pulumiStack">Specify the pulumi stack you want to operate on. e.g. 'dev'</param>
         /// <returns></returns>
         [CakeMethodAlias]
-        public static IDisposable PulumiStack(this ICakeContext context, string pulumiStack)
+        public static IDisposable WithPulumiStack(this ICakeContext context, string pulumiStack)
         {
             _pulumiStack.Value = pulumiStack;
             return new DisposableAction(() => _pulumiStack.Value = null);
         }
 
-        private static readonly AsyncLocal<DirectoryPath> _pulumiDir = new AsyncLocal<DirectoryPath>();
-
         /// <summary>
         /// Set the pulumi directory (e.g. containing index.ts)
+        /// If this is used in conjunction with <see cref="PulumiStack"/> then this will take precedence.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="pulumiDirectory">Specify the path containing the pulumi scripts e.g. './infrastructure'</param>
         /// <returns></returns>
         [CakeMethodAlias]
-        public static IDisposable PulumiDir(this ICakeContext context, DirectoryPath pulumiDirectory)
+        public static IDisposable WithPulumiDir(this ICakeContext context, DirectoryPath pulumiDirectory)
         {
             _pulumiDir.Value = pulumiDirectory.MakeAbsolute(context.Environment);
             return new DisposableAction(() => _pulumiDir.Value = null);
         }
 
-        private static T Set<T>(T toolSettings) where T : ToolSettings
+        private static T Set<T>(T pulumiSettings) where T : PulumiSettings
         {
+            // First use _pulumiSettings
+            bool stackSet = false;
+            if (_pulumiSettings.Value != null)
+            {
+                pulumiSettings.NoWorkingDirectory = _pulumiSettings.Value.NoWorkingDirectory;
+                pulumiSettings.WorkingDirectory = _pulumiSettings.Value.WorkingDirectory;
+
+                if (_pulumiSettings.Value.Verbose)
+                    pulumiSettings.Verbose = true;
+
+                if (_pulumiSettings.Value.PulumiAccessToken != null && pulumiSettings.PulumiAccessToken == null)
+                    pulumiSettings.PulumiAccessToken = _pulumiSettings.Value.PulumiAccessToken;
+                if (_pulumiSettings.Value.PulumiConfigPassphrase != null && pulumiSettings.PulumiConfigPassphrase == null)
+                    pulumiSettings.PulumiConfigPassphrase = _pulumiSettings.Value.PulumiConfigPassphrase;
+
+                if (pulumiSettings is PulumiStackSettings pss
+                    && _pulumiSettings.Value is PulumiStackSettings _pss
+                    && pss.Stack == null
+                    && _pss.Stack != null)
+                {
+                    stackSet = true;
+                    pss.Stack = _pss.Stack;
+                }
+
+            }
+            
+            
+            // Override with _pulumiDir
             if (_pulumiDir.Value != null)
             {
-                toolSettings.NoWorkingDirectory = false;
-                toolSettings.WorkingDirectory = _pulumiDir.Value;
+                pulumiSettings.NoWorkingDirectory = false;
+                pulumiSettings.WorkingDirectory = _pulumiDir.Value;
             }
 
-            if (toolSettings is PulumiStackSettings pss && pss.Stack == null && _pulumiStack.Value != null)
+            // Override with _pulumiStack
+            if (pulumiSettings is PulumiStackSettings ps && _pulumiStack.Value != null && (ps.Stack == null || stackSet))
             {
-                pss.Stack = _pulumiStack.Value;
+                ps.Stack = _pulumiStack.Value;
             }
 
-            return toolSettings;
+            return pulumiSettings;
         }
 
         class DisposableAction : IDisposable

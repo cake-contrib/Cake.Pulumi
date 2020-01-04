@@ -5,7 +5,7 @@ using Cake.Core.IO;
 
 namespace Cake.Pulumi
 {
-    public abstract class PulumiStackConfigSettings : PulumiStackSettings
+    public class PulumiStackConfigSettings : PulumiStackSettings
     {
         /// <summary>
         /// Config key value pairs to override the auto-detected stack settings
