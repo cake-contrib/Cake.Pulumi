@@ -8,7 +8,6 @@ namespace Cake.Pulumi
     /// </summary>
     public class PulumiDestroySettings : PulumiStackSettings
     {
-
         /// <summary>
         /// Refresh Pulumi stack state before performing the destroy command.
         /// </summary>
